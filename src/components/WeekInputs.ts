@@ -1,6 +1,7 @@
 import Input from "./Input";
 import days from "../constants/days";
 import formatTime from "../utils/formatTime";
+import validateTimeInput from "../utils/validateTimeInput";
 
 export default function WeekInputs({
   weekNumber,
@@ -17,6 +18,7 @@ export default function WeekInputs({
       maxLength: 5,
       onChange,
       formatter: formatTime,
+      validation: validateTimeInput,
     });
   });
 

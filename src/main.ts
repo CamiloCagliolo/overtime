@@ -2,6 +2,7 @@ import Panel from "./components/Panel";
 import TimeEntryBoard from "./components/TimeEntryBoard";
 import "./style.css";
 import PanelStore from "./store/panel";
+import translateTime from "./utils/translateTime";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -9,6 +10,7 @@ let panelInputs: {
   component: HTMLLabelElement;
   innerInput: HTMLInputElement;
 }[];
+
 const store = {
   hourCost: 0.0,
   totalHours: 0.0,
@@ -86,7 +88,7 @@ const rerenderCost = () => {
 
   if (isNaN(hourCost)) {
     store.hourCost = 0.0;
-    PanelStore.hourCost.querySelector(".important")!.textContent = "0.00";
+    PanelStore.hourCost.querySelector(".important")!.textContent = "-";
     return;
   }
   store.hourCost = hourCost;
@@ -97,18 +99,26 @@ const rerenderCost = () => {
 const rerenderTotalOvertime = () => {
   const total = Object.keys(localStorage).reduce((acc, key) => {
     if (key.includes("week-")) {
-      acc += Number(localStorage.getItem(key)!);
+      acc += translateTime(localStorage.getItem(key)!);
     }
     return acc;
   }, 0);
 
+  if(isNaN(total)) {
+    store.total = 0.0;
+    PanelStore.totalTime.querySelector(".important")!.textContent = "-";
+    return;
+  }
+
   store.total = total;
+
   PanelStore.totalTime.querySelector(".important")!.textContent =
     total.toFixed(2);
 };
 
 const rerenderTotalMoney = () => {
   const total = store.total * store.hourCost;
+
   PanelStore.totalMoney.querySelector(
     ".important"
   )!.textContent = `$${total.toFixed(2)}`;

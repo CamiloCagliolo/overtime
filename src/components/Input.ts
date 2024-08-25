@@ -5,6 +5,7 @@ export interface InputProps {
   onChange?: (...args: any[]) => void;
   formatter?: (value: string) => string;
   maxLength?: number;
+  validation?: (value: string) => string | true;
 }
 
 export default function Input({
@@ -14,6 +15,7 @@ export default function Input({
   maxLength,
   onChange,
   formatter,
+  validation,
 }: InputProps) {
   const label = document.createElement("label");
   label.classList.add("label");
@@ -35,6 +37,21 @@ export default function Input({
 
   label.appendChild(input);
 
+  const error = document.createElement("span");
+
+  if (validation) {
+    error.classList.add("error");
+    label.appendChild(error);
+  }
+
+  const appendErrorMessage = (message: string) => {
+    error.textContent = message;
+  };
+
+  const clearErrorMessage = () => {
+    error.textContent = "";
+  };
+
   input.addEventListener("focus", () => {
     label.classList.add("focused");
   });
@@ -48,13 +65,22 @@ export default function Input({
   input.addEventListener("change", () => {
     localStorage.setItem(name, input.value);
     if (onChange) onChange();
+    if (validation) {
+      const validated = validation(input.value);
+      if (validated !== true) {
+        appendErrorMessage(validated);
+        return;
+      } else {
+        clearErrorMessage();
+      }
+    }
   });
 
   input.addEventListener("keydown", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       input.blur();
-      const next = label.nextElementSibling?.querySelector('input');
-      if (next && next instanceof HTMLInputElement) next.focus();
+      const next = label.nextElementSibling?.querySelector("input");
+      if (next) next.focus();
     }
   });
 

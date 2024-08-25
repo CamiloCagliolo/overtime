@@ -87,6 +87,13 @@ body > h1 {
   color: var(--accent);
 }
 
+.label span.error {
+  color: rgb(206, 103, 103);
+  margin-left: .5rem;
+  font-size: 1rem;
+  min-height: 1rem;
+}
+
 .input {
   padding: 0.5rem 1rem;
   border: 1px solid #ccc;
