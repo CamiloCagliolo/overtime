@@ -1,12 +1,10 @@
 import Panel from "./components/Panel";
 import TimeEntryBoard from "./components/TimeEntryBoard";
 import "./style.css";
+import PanelStore from "./store/panel";
 
 document.addEventListener("DOMContentLoaded", main);
 
-let hourCostResult: HTMLHeadingElement;
-let totalTimeResult: HTMLHeadingElement;
-let totalMoneyResult: HTMLHeadingElement;
 let panelInputs: {
   component: HTMLLabelElement;
   innerInput: HTMLInputElement;
@@ -56,20 +54,11 @@ function main() {
   const info = document.createElement("div");
   info.classList.add("info");
 
-  hourCostResult = document.createElement("h3");
-  hourCostResult.classList.add("ot-cost");
-  hourCostResult.innerHTML = `Overtime hour cost: <span class="important"></span>`;
-  info.appendChild(hourCostResult);
+  let key: keyof typeof PanelStore;
 
-  totalTimeResult = document.createElement("h3");
-  totalTimeResult.classList.add("ot-cost");
-  totalTimeResult.innerHTML = `Total overtime: <span class="important"></span>`;
-  info.appendChild(totalTimeResult);
-
-  totalMoneyResult = document.createElement("h3");
-  totalMoneyResult.classList.add("ot-cost");
-  totalMoneyResult.innerHTML = `Total money: <span class="important"></span>`;
-  info.appendChild(totalMoneyResult);
+  for (key in PanelStore) {
+    info.appendChild(PanelStore[key]);
+  }
 
   appDiv.appendChild(panel);
   appDiv.appendChild(info);
@@ -97,11 +86,12 @@ const rerenderCost = () => {
 
   if (isNaN(hourCost)) {
     store.hourCost = 0.0;
-    hourCostResult.querySelector(".important")!.textContent = "0.00";
+    PanelStore.hourCost.querySelector(".important")!.textContent = "0.00";
     return;
   }
   store.hourCost = hourCost;
-  hourCostResult.querySelector(".important")!.textContent = hourCost.toFixed(2);
+  PanelStore.hourCost.querySelector(".important")!.textContent =
+    hourCost.toFixed(2);
 };
 
 const rerenderTotalOvertime = () => {
@@ -113,10 +103,13 @@ const rerenderTotalOvertime = () => {
   }, 0);
 
   store.total = total;
-  totalTimeResult.querySelector(".important")!.textContent = total.toFixed(2);
+  PanelStore.totalTime.querySelector(".important")!.textContent =
+    total.toFixed(2);
 };
 
 const rerenderTotalMoney = () => {
   const total = store.total * store.hourCost;
-  totalMoneyResult.querySelector(".important")!.textContent = `$${total.toFixed(2)}`;
+  PanelStore.totalMoney.querySelector(
+    ".important"
+  )!.textContent = `$${total.toFixed(2)}`;
 };
