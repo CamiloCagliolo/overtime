@@ -1,5 +1,7 @@
 import Input from "./Input";
-import days from "../store/days";
+import days from "../constants/days";
+import formatTime from "../utils/formatTime";
+import validateTimeInput from "../utils/validateTimeInput";
 
 export default function WeekInputs({
   weekNumber,
@@ -12,8 +14,11 @@ export default function WeekInputs({
     return Input({
       labelText: day,
       name: `week-${weekNumber}-${day.toLowerCase()}`,
-      type: "number",
+      type: "text",
+      maxLength: 5,
       onChange,
+      formatter: formatTime,
+      validation: validateTimeInput,
     });
   });
 

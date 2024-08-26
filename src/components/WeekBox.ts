@@ -1,4 +1,4 @@
-import days from "../store/days";
+import days from "../constants/days";
 import WeekInputs from "./WeekInputs";
 
 export default function WeekBox({
