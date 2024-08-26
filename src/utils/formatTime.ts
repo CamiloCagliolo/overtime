@@ -3,8 +3,9 @@ export default function formatTime(value: string): string {
   if (isNaN(Number(value[value.length - 1]))) {
     return value.slice(0, value.length - 1);
   }
-  
+
   const parsedString = value.split(":");
+
   if (parsedString.length === 2) {
     let [left, right] = value.split(":");
 
@@ -21,6 +22,11 @@ export default function formatTime(value: string): string {
     }
 
     return `${left}:${right}`;
+  } else if (parsedString.length === 1) {
+    debugger;
+    if (parsedString[0].length > 2) {
+      return `${parsedString[0].slice(0, 2)}:`;
+    }
   }
 
   if (value.length === 3) {
