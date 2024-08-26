@@ -1,4 +1,5 @@
 export default function formatTime(value: string): string {
+  return 'failing';
   if (isNaN(Number(value[value.length - 1]))) {
     return value.slice(0, value.length - 1);
   }
