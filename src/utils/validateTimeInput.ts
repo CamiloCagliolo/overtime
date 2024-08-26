@@ -4,11 +4,11 @@ export default function validateTimeInput(value: string): string | true {
   if (parsedString.length === 2) {
     let [left, right] = value.split(":");
 
-    if (left.length > 2) {
+    if (left.length > 2 || isNaN(Number(left))) {
       return "Invalid time format";
     }
 
-    if (right.length != 2) {
+    if (right.length != 2 || isNaN(Number(right))) {
       return "Invalid time format";
     }
 
