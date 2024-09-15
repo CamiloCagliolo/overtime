@@ -20,4 +20,10 @@ test("validateTimeInput", () => {
   expect(validateTimeInput("12:34:5a")).toBe("Invalid time format");
   expect(validateTimeInput("12:34:a5")).toBe("Invalid time format");
   expect(validateTimeInput("12:34:56a")).toBe("Invalid time format");
+  expect(validateTimeInput("1234:56")).toBe("Invalid time format");
+  expect(validateTimeInput("1234:5")).toBe("Invalid time format");
+  expect(validateTimeInput("1234:5a")).toBe("Invalid time format");
+  expect(validateTimeInput("1234:23")).toBe("Invalid time format");
+  expect(validateTimeInput("1234:2")).toBe("Invalid time format");
+  expect(validateTimeInput("12345:00")).toBe("Invalid time format");
 });

@@ -25,7 +25,6 @@ export default function formatTime(value: string): string {
 
     return `${left}:${right}`;
   } else if (parsedString.length === 1) {
-    debugger;
     if (parsedString[0].length > 2) {
       return `${parsedString[0].slice(0, 2)}:`;
     }
