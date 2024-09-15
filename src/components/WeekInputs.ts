@@ -15,7 +15,7 @@ export default function WeekInputs({
       labelText: day,
       name: `week-${weekNumber}-${day.toLowerCase()}`,
       type: "text",
-      maxLength: 5,
+      maxLength: 6,
       onChange,
       formatter: formatTime,
       validation: validateTimeInput,
